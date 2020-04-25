@@ -1,0 +1,141 @@
+<%
+  # API
+  my $api = gitprep_api;
+  
+  # Operator
+  my $op = param('op') || '';
+  
+  # DBI
+  my $dbi = $self->app->dbi;
+  
+  # Errors
+  my $error;
+  
+  # Login
+  if ($op eq 'login') {
+  
+    # Paramerters
+    my $id = param('id');
+    my $password = param('password');
+    
+    # Validator
+    my $vc = app->vc;
+    
+    # Validation result
+    my $validation = $vc->validation;
+    
+    # "id"
+    $id = '' unless defined $id;
+    
+    # "user" and "password"
+    $password = '' unless defined $password;
+    my $user = $dbi->model('user')->select(
+      ['row_id', 'password', 'salt', 'admin'],
+      where => {id => $id}
+    )->one;
+    if (!$user) {
+      $validation->add_failed("User name or password is wrong");
+    }
+    else {
+      my $is_valid = $api->check_password(
+        $password,
+        $user->{salt},
+        $user->{password}
+      );
+      if (!$is_valid) {
+        $validation->add_failed("User name or password is wrong");
+      }
+    }
+    
+    if ($validation->is_valid) {
+      
+      # Login success
+      my $password_encrypted = $user->{password};
+      my $admin = $user->{admin};
+      session(user_row_id => $user->{row_id});
+      session(password => $password_encrypted);
+      
+      # 2 weeks save
+      session(expiration => 60 * 60 * 24 * 14);
+      
+      # Go to admin page
+      if ($admin) {
+        $self->redirect_to('/_admin');
+        return 1;
+      }
+      # Go to user page
+      else {
+        $self->redirect_to("/$id");
+        return 1;
+      }
+    }
+    else { $error = 'User name or password is wrong' }
+  }
+%>
+
+% layout 'common', title => 'Login';
+
+  <!-- Login page -->
+  <div class="header">
+    <div class="container">
+      <div class="header-left">
+        <div class="title"><a href="<%= url_for('/') %>">GitPrep</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="header-bottom"></div>
+
+  <div class="container">
+    % my $id = '';
+    % if (flash('admin_user_created')) {
+      % $id = 'admin';
+      <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        Admin user is created. Let's login as admin user.
+      </div>
+    % }
+
+    % if (my $messages = flash('messages')) {
+      <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        % for my $message (@$messages) {
+          <p><%= $message %></p>
+        % }
+      </div>
+    % }
+    
+    % if ($error) {
+      <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <div><%= $error %></div>
+      </div>
+    % }
+
+    <div class="topic1" style="text-align:center;width:300px;margin-left:auto;margin-right:auto;">
+      Login
+    </div>
+    
+    <form class="user-form" action="<%= url_for->query(op => 'login') %>" method="post">
+      <div class="user-form-container">
+        <div>
+          <div>Username</div>
+          <div>
+            <%= input_tag id => $id, type => 'text', placeholder => 'User', id =>'user-name'%>
+          </div>
+        </div>
+        <div>
+          <div>Password</div>
+          <div>
+            <%= password_field 'password', id => 'input-password', placeholder => 'Password' %>
+          </div>
+        </div>
+        <div>
+          <div>
+            <button type="submit" class="btn btn-green btn-new">Login</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  %= include '/include/footer';

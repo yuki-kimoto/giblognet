@@ -1,0 +1,14 @@
+<div class="footer">
+  <div class="container">
+    <div>
+      <a title="Let's share GitPrep!" href="https://github.com/yuki-kimoto/gitprep">Gitprep</a> Version <%= $Gitprep::VERSION %>
+      build on <a title="Let's share Mojolicious!" href="https://github.com/kraih/mojo">Mojolicious</a>
+    </div>
+
+    % if (app->mode eq 'development') {
+      <div>
+        <a href="<%= url_for('/dbviewer') %>">DBViewer</a>
+      </div>
+    % }
+  </div>
+</div>

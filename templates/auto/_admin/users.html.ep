@@ -1,0 +1,132 @@
+<%
+  my $op = param('op') || '';
+  my $api = gitprep_api;
+  
+  my $errors;
+  if ($op eq 'delete' && lc $self->req->method eq 'post') {
+    
+    # Parameters
+    my $user_id = param('user');
+    
+    # Validator
+    my $vc = app->vc;
+    
+    # Validation result
+    my $validation = $vc->validation;
+    
+    # "user" check
+    if (!(defined $user_id && length $user_id)) {
+      $validation->add_failed(user => 'User name is empty.');
+    }
+
+    if ($validation->is_valid) {
+      
+      # Delete user
+      my $count;
+      eval { $count = app->manager->delete_user($user_id) };
+      if (my $e = $@) {
+        app->log->error(url_for . ": $e");
+        $errors = ['Internal Error'];
+      }
+      elsif ($count == 0) {
+        app->log->error("/_admin/users?op=delete: User $user_id not exists");
+        $errors = ['Internal Error'];
+      }
+      else {
+        $self->flash(message => "User $user_id is deleted.");
+        $self->redirect_to('current');
+        return;
+      }
+    }
+    else { $errors = $validation->messages }
+  }
+  
+  my $users = app->dbi->model('user')->select(
+    where => {admin => 0},
+    append => 'order by id'
+  )->all;
+%>
+
+% layout 'common', title => 'Admin Users';
+
+  %= javascript begin
+    $(document).ready(function () {
+      
+      // Confirm delete
+      $('.delete-btn').on('click', function () {
+        var user = $(this).attr('user');
+        
+        var input = window.prompt(
+          'Are you really delete user "' + user
+          + '". User and user\'s all repositories are deleted. Please input user name.'
+        );
+        
+        if (user === input) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      });
+    });
+  % end
+
+  %= include '/include/header';
+
+  <div class="container">
+
+    % if (my $message = flash('message')) {
+      <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        %= $message;
+      </div>
+    % }
+    
+    % if ($errors) {
+      <div class="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        % for my $error (@$errors) {
+          <p><%= $error %></p>
+        % }
+      </div>
+    % }
+    
+    <h3 class="topic1">Admin Users</h3>
+    <div style="margin-bottom:10px"><a class="btn" href="<%= url_for('/_admin/user/create') %>">Create User</a></div>
+    <div class="container">
+      <table class="admin-users">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Mail</th>
+          <th></th>
+        </tr>
+        % for my $user (@$users) {
+          <tr>
+            % my $uid = $user->{id};
+            <td>
+              <a href="#"><%= $uid %></a>
+            </td>
+            <td>
+              <%= $user->{name} %>
+            </td>
+            <td>
+              <%= $user->{email} %>
+            </td>
+            <td>
+              <a class="btn btn-small" href="<%= url_for('/_admin/user/update')->query(id => $uid) %>">Settings</a>
+              <a class="btn btn-small" href="<%= url_for('/reset-password')->query(user => $uid) %>">Reset Password</a>
+              <form action="<%= url_for->query(op => 'delete') %>" method="post">
+                %= hidden_field user => $uid;
+                <input type="submit" class="btn btn-small delete-btn" style="color:red" user="<%= $uid %>" value="Delete">
+              </form>
+            </td>
+          </tr>
+        % }
+      </table>
+    </div>
+  </div>
+  <div style="text-align:center;margin:20px 0"><big><a href="<%= url_for('/_admin') %>">Admin page</a></big></div>
+  
+  %= include '/include/footer';
+  
