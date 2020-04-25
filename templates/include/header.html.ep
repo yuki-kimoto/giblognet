@@ -121,22 +121,10 @@
                   Code
                 </a>
               </li>
-              <li class="<%= $tab eq 'issues' ? 'active' :  '' %>">
-                <a href="<%= url_for("/$user_id/$project_id/issues") %>">
-                  <i class="icon-comment"></i>
-                  Issues <div class="header-issue-count"><%= $api->get_open_issue_count($user_id, $project_id) %></div>
-                </a>
-              </li>
               <li class="<%= $tab eq 'pulls' ? 'active' :  '' %>">
                 <a href="<%= url_for("/$user_id/$project_id/pulls") %>">
                   <i class="icon-retweet"></i>
-                  Pull request <div class="header-issue-count"><%= $api->get_open_pull_request_count($user_id, $project_id) %></div>
-                </a>
-              </li>
-              <li class="<%= $tab eq 'graph' ? 'active' :  '' %>">
-                <a href="<%= url_for("/$user_id/$project_id/network") %>" >
-                  <i class="icon-align-center"></i>
-                  Members
+                  Pull request
                 </a>
               </li>
               % if ($logined && $user_id eq $session_user->{id}) {

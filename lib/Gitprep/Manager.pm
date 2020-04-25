@@ -322,33 +322,6 @@ sub is_private_project {
 sub api { shift->app->gitprep_api }
 
 
-sub member_projects {
-  my ($self, $user_id, $project_id) = @_;
-  
-  # DBI
-  my $dbi = $self->app->dbi;
-  
-  # project id
-  my $project_row_id = $dbi->model('project')->select(
-    'project.row_id',
-    where => {'user.id' => $user_id, 'project.id' => $project_id}
-  )->value;
-  
-  # Members
-  my $member_projects = $dbi->model('project')->select(
-    [
-      {__MY__ => ['id']},
-      {user => ['id']}
-    ],
-    where => {
-      original_project => $project_row_id,
-    },
-    append => 'order by user.id, project.id'
-  )->all;
-
-  return $member_projects;
-}
-
 sub create_project {
   my ($self, $user_id, $project_id, $opts) = @_;
   
