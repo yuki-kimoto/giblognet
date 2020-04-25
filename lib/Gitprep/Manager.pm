@@ -101,35 +101,6 @@ sub prepare_merge {
     or Carp::croak "Can't execute git reset --hard: @git_reset_hard_base_cmd";
 }
 
-sub merge {
-  my ($self, $work_rep_info, $target_rep_info, $target_branch, $pull_request_number) = @_;
-  
-  my $object_id = $self->app->git->ref_to_object_id($target_rep_info, $target_branch);
-  
-  my $message;
-  my $target_user_id = $target_rep_info->{user};
-  if (defined $pull_request_number) {
-    $message = "Merge pull request #$pull_request_number from $target_user_id/$target_branch";
-  }
-  else {
-    $message = "Merge from $target_user_id/$target_branch";
-  }
-  
-  # Merge
-  my @git_merge_cmd = $self->app->git->cmd(
-    $work_rep_info,
-    'merge',
-    '--no-ff',
-    "--message=$message",
-    $object_id
-  );
-  # 
-  
-  my $success = Gitprep::Util::run_command(@git_merge_cmd);
-  
-  return $success;
-}
-
 sub get_patch {
   my ($self, $work_rep_info, $target_rep_info, $target_branch) = @_;
   

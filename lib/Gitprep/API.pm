@@ -8,18 +8,6 @@ use Encode 'decode', 'encode';
 
 has 'cntl';
 
-sub get_open_pull_request_count {
-  my ($self, $user_id, $project_id) = @_;
-  
-  return $self->get_pull_request_count($user_id, $project_id, {open => 1});
-}
-
-sub get_close_pull_request_count {
-  my ($self, $user_id, $project_id) = @_;
-  
-  return $self->get_pull_request_count($user_id, $project_id, {open => 0});
-}
-
 sub markdown {
   my ($self, $markdown_text) = @_;
 

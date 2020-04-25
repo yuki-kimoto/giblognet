@@ -1410,24 +1410,6 @@ sub parse_ls_tree_line {
   return \%res;
 }
 
-sub import_branch {
-  my ($self, $rep_info, $branch, $remote_rep_info, $remote_branch, $opt) = @_;
-  
-  my $force = $opt->{force};
-  
-  # Git pull
-  my $remote_rep = $remote_rep_info->{git_dir};
-  my @cmd = $self->cmd(
-    $rep_info,
-    'fetch',
-    $remote_rep,
-    ($force ? '+' : '') . "refs/heads/$remote_branch:refs/heads/$branch"
-  );
-  
-  Gitprep::Util::run_command(@cmd)
-    or croak 'Open git fetch for import_branch failed';
-}
-
 sub search_bin {
   my $self = shift;
   
