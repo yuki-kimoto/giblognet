@@ -5,7 +5,7 @@ use lib "$FindBin::Bin/lib";
 use lib "$FindBin::Bin/extlib/lib/perl5";
 use DBIx::Custom;
 
-my $database_file = shift // "$FindBin::Bin/data/gitprep.db";
+my $database_file = shift // "$FindBin::Bin/data/giblognet.db";
 
 #  DBI
 my %dbi_args = (

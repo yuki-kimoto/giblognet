@@ -1,6 +1,6 @@
 <%
   my $op = param('op') || '';
-  my $api = gitprep_api;
+  my $api = giblognet_api;
   
   my $errors;
   if ($op eq 'delete' && lc $self->req->method eq 'post') {

@@ -3,4 +3,4 @@ use FindBin;
 use lib "$FindBin::Bin/extlib/lib/perl5";
 
 $ENV{MOJO_MODE} = 'production';
-require "$FindBin::Bin/script/gitprep";
+require "$FindBin::Bin/script/giblognet";

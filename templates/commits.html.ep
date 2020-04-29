@@ -1,6 +1,6 @@
 <%
   # API
-  my $api = gitprep_api;
+  my $api = giblognet_api;
 
   # Git
   my $git = $self->app->git;
@@ -94,7 +94,7 @@
 #%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xml:lang="en-US">
-  <id>tag:gitprep,2008:/<%= $user_id %>/<%= $project_id %>/commits/<%= $rev_file %></id>
+  <id>tag:giblognet,2008:/<%= $user_id %>/<%= $project_id %>/commits/<%= $rev_file %></id>
   <link type="text/html" rel="alternate" href="<%= $alternate_url->to_abs %>"/>
   <link type="application/atom+xml" rel="self" href="<%= url_with->to_abs %>"/>
   <title>Recent Commits to <%= "$project_id:$rev" %></title>
@@ -102,7 +102,7 @@
 
     % for my $commit (@$commits) {
   <entry>
-    <id>tag:gitprep,2008:Grit::Commit/<%= $commit->{id} %></id>
+    <id>tag:giblognet,2008:Grit::Commit/<%= $commit->{id} %></id>
     <link type="text/html" rel="alternate" href="<%= url_for("$user_project_path/commit/$commit->{id}")->to_abs %>" />
     <title>
         <%= $commit->{title} %>

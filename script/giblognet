@@ -18,4 +18,4 @@ Please visit http://mojolicio.us for detailed installation instructions.
 EOF
 
 # Start commands
-Mojolicious::Commands->start_app('Gitprep');
+Mojolicious::Commands->start_app('Giblognet');

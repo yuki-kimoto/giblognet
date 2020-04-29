@@ -1,4 +1,4 @@
-package Gitprep::API;
+package Giblognet::API;
 use Mojo::Base -base;
 
 use Digest::MD5 'md5_hex';

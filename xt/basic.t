@@ -11,18 +11,18 @@ use Test::Mojo;
 # Data directory
 my $data_dir =  $ENV{GITPREP_DATA_DIR} = "$FindBin::Bin/basic";
 
-# You must clone "gitprep_t"
+# You must clone "giblognet_t"
 # cd basic/rep/kimoto
-# git clone --bare https://github.com/yuki-kimoto/gitprep_t.git
+# git clone --bare https://github.com/yuki-kimoto/giblognet_t.git
 
 $ENV{GITPREP_NO_MYCONFIG} = 1;
 
-my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
 my $t = Test::Mojo->new($app);
 
 my $user = 'kimoto';
-my $project = 'gitprep_t';
+my $project = 'giblognet_t';
 
 note 'Home page';
 {
@@ -30,7 +30,7 @@ note 'Home page';
   $t->get_ok('/');
   
   # Title
-  $t->content_like(qr/GitPrep/);
+  $t->content_like(qr/Giblog Net/);
   $t->content_like(qr/Users/);
   
   # User link

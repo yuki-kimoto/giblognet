@@ -1,22 +1,22 @@
-# GitPrep - Portable GitHub system into your own server
+# Giblog Net - Portable GitHub system into your own server
 
-GitPrep is **portable Github system**. You can install portable GitHub system into **your own Unix/Linux server**.</span>
+Giblog Net is **portable Github system**. You can install portable GitHub system into **your own Unix/Linux server**.</span>
 
-<img src="gitprep_01.png" width="870" border="1">
+<img src="giblognet_01.png" width="870" border="1">
 
 
-## GitPrep example
+## Giblog Net example
 
-At first, Let's try **[GitPrep example](https://perlcodesample.sakura.ne.jp/gitprep/gitprep.cgi/kimoto/gitprep)**.
-You will find GitPrep is real portable GitHub system.
+At first, Let's try **[Giblog Net example](https://perlcodesample.sakura.ne.jp/giblognet/giblognet.cgi/kimoto/giblognet)**.
+You will find Giblog Net is real portable GitHub system.
 
 You can use all of repository, pull request, issue, wiki.
 
 ## Features
 
-* Github clone: GitPrep has the same interface as GitHub.
+* Github clone: Giblog Net has the same interface as GitHub.
 * Support issue system
-* Portable: You can install GitPrep on your own Unix/Linux server.
+* Portable: You can install Giblog Net on your own Unix/Linux server.
 * Only needs Perl 5.10.1+.
 * Smart HTTP support: you can pull and push repository via HTTP.
 * Built-in web server, and reverse proxy support.
@@ -34,18 +34,18 @@ All reporitories are yours. All repositories exists on **your own server**.
 
 Open source. **All free**.
 
-Let's try GitPrep. If you like GitPrep, please share and talk about GitPrep in your community or your company.
+Let's try Giblog Net. If you like Giblog Net, please share and talk about Giblog Net in your community or your company.
 
-## A. Install and run GitPrep by embdded web server
+## A. Install and run Giblog Net by embdded web server
 
-GitPrep has its own web server. You can start GitPrep easily.
+Giblog Net has its own web server. You can start Giblog Net easily.
 
-### Create gitprep user
+### Create giblognet user
 
-Create a **gitprep** user. This is not necessary, but recommended:
+Create a **giblognet** user. This is not necessary, but recommended:
 
-    useradd gitprep
-    su - gitprep
+    useradd giblognet
+    su - giblognet
     cd ~
 
 ### Check if git is installed
@@ -54,7 +54,7 @@ Create a **gitprep** user. This is not necessary, but recommended:
 
 ## Check Perl Version
 
-Check Perl version. You can use GitPrep if the Perl version is 5.10.1+;
+Check Perl version. You can use Giblog Net if the Perl version is 5.10.1+;
 
     perl -v
 
@@ -68,12 +68,12 @@ If you don't have Perl 5.10.1+, you need to install a newer perl version with pe
     perlbrew switch perl-5.16.3
     perl -v
     
-Download GitPrep .tar.gz archive, expand it and change directory:
+Download Giblog Net .tar.gz archive, expand it and change directory:
 
-    curl -kL https://github.com/yuki-kimoto/gitprep/archive/latest.tar.gz > gitprep-latest.tar.gz
-    tar xf gitprep-latest.tar.gz
-    mv gitprep-latest gitprep
-    cd gitprep
+    curl -kL https://github.com/yuki-kimoto/giblognet/archive/latest.tar.gz > giblognet-latest.tar.gz
+    tar xf giblognet-latest.tar.gz
+    mv giblognet-latest giblognet
+    cd giblognet
 
 Setup. Needed modules are installed.
 
@@ -94,21 +94,21 @@ Setup database.
 
     ./setup_database
 
-If you used Gitprep version 1 and upgrade it to version 2, you need to upgrade database
+If you used Giblognet version 1 and upgrade it to version 2, you need to upgrade database
 with the following command
 
-    # Backup gitprep directory for safety
+    # Backup giblognet directory for safety
     cd ..
-    cp -rp gitprep gitprep.bak
+    cp -rp giblognet giblognet.bak
     
     # Upgrade database
-    cd gitprep
-    mv data/gitprep.db data/gitprep_v1bak.db
+    cd giblognet
+    mv data/giblognet.db data/giblognet_v1bak.db
     ./setup_database
-    old/copy_database_v1_to_v2 data/gitprep_v1bak.db data/gitprep.db
+    old/copy_database_v1_to_v2 data/giblognet_v1bak.db data/giblognet.db
 
 If you install git in your local directory,
-you have to add the correct git command path to the **gitprep.conf** config file.
+you have to add the correct git command path to the **giblognet.conf** config file.
 
     [basic]
     ;;; Git command path
@@ -118,33 +118,33 @@ And do some settings
 
     git config --global core.quotepath false
 
-### Start gitprep server
+### Start giblognet server
 
-You can start the application by running the provided gitprep script.
+You can start the application by running the provided giblognet script.
 The application is run in the background and the port is **10020** by default.
 
-    ./gitprep
+    ./giblognet
 
-(If you run this command again, gitprep server restarts.)
+(If you run this command again, giblognet server restarts.)
 
 Then access the following URL.
 
     http://localhost:10020
 
-If you want to change the port, edit gitprep.conf.
+If you want to change the port, edit giblognet.conf.
 If you cannot access this port, you might change the firewall settings.
 
-### Stop gitprep server
+### Stop giblognet server
 
 You can stop the application by adding the **--stop** option.
 
-    ./gitprep --stop
+    ./giblognet --stop
 
-## B. Run GitPrep as CGI script
+## B. Run Giblog Net as CGI script
 
-You can run GitPrep as CGI script as the following site.
+You can run Giblog Net as CGI script as the following site.
 
-[GitPrep example site](https://perlcodesample.sakura.ne.jp/gitprep/gitprep.cgi/kimoto/gitprep)
+[Giblog Net example site](https://perlcodesample.sakura.ne.jp/giblognet/giblognet.cgi/kimoto/giblognet)
 
 This is shared server. I assume you can connect the server via SSH and login with your own user.
 
@@ -152,26 +152,26 @@ Installation process is same as above except for create user.
 
 If you finish installation, you can access the following URL.
 
-    http://yourhost/somepath/gitprep/gitprep.cgi
+    http://yourhost/somepath/giblognet/giblognet.cgi
 
 ### If you see Internal Server Error
 
-If you see an internal server error, look at the log file (gitprep/log/production.log)
+If you see an internal server error, look at the log file (giblognet/log/production.log)
 to see what problem has occurred.
 
 ## FAQ
 
-## I can't install Gitprep on CentOS
+## I can't install Giblognet on CentOS
 
 After CentOS 6, some perl core modules are not installed by default.
 You can install Perl core modules by the following command.
 
     yum -y install perl-core
 
-## Can't find git command from GitPrep
+## Can't find git command from Giblog Net
 
 If you install git into your local directory,
-you must add the correct git command path to the config file **gitprep.conf** .
+you must add the correct git command path to the config file **giblognet.conf** .
 
     [basic]
     ;;; Git command path
@@ -179,16 +179,16 @@ you must add the correct git command path to the config file **gitprep.conf** .
 
 ### blame doesn't work
 
-In Gitprep, blame page uses "git blame --line-porcelain". In old git, there is no --line-porcelain option.
+In Giblognet, blame page uses "git blame --line-porcelain". In old git, there is no --line-porcelain option.
 We don't know when --line-porcelain was added to git.
 At least, blame page work well in git 1.8.2.1.
 
-### How to upgrade GitPrep
+### How to upgrade Giblog Net
 
-It is very easy. you only overwrite all files except for "gitprep.conf".
+It is very easy. you only overwrite all files except for "giblognet.conf".
 
 If you want to upgrade by "git pull", you can do it.
-you create "gitprep.my.conf" copied from "gitprep.conf",
+you create "giblognet.my.conf" copied from "giblognet.conf",
 and do "git pull"
 
 If you get a rainbow unicorn t-rex error after upgrading, you might be missing
@@ -203,9 +203,9 @@ There are some reasons.
 If you see "error: RPC failed; result=56, HTTP code = 200" , your git maybe old.
 Please upgrade to latest git. I checked git version 1.8.5.5.
 
-**2. GitPrep restriction**
+**2. Giblog Net restriction**
 
-GitPrep restrict max post message size 10MB(This is default of Mojolicious)
+Giblog Net restrict max post message size 10MB(This is default of Mojolicious)
 
 You maybe see the following error
 
@@ -246,10 +246,10 @@ Please increase the value of http.postBuffer.
 
 ### How to use reverse proxy?
 
-You can use GitPrep via reverse proxy access
+You can use Giblog Net via reverse proxy access
 
          ----------------------------     ------------
-    ---->| Web Server(Reverse proxy)|---->|GitPrep   |
+    ---->| Web Server(Reverse proxy)|---->|Giblog Net   |
     <----| (Apache, etc)            |<----|          |
          ----------------------------     ------------
 
@@ -273,7 +273,7 @@ You can use Name virtual host.
         
     </VirtualHost>
 
-If you use GitPrep via https, you should set X-Forwarded-HTTPS Request Header.
+If you use Giblog Net via https, you should set X-Forwarded-HTTPS Request Header.
 
     # HTTPS
     <VirtualHost *:443>
@@ -293,7 +293,7 @@ If you use GitPrep via https, you should set X-Forwarded-HTTPS Request Header.
 
 ### How to use reverse proxy with sub directory?
 
-GitPrep support reverse proxy with sub directory.
+Giblog Net support reverse proxy with sub directory.
 
 At first, set [reverse_proxy]path_depth option.
 
@@ -342,29 +342,29 @@ If **description** file exists in git repository, it is copied.
 
 ### I can't add more than one collaborator
 
-This is a GitPrep bug before version 1.5.1.
+This is a Giblog Net bug before version 1.5.1.
 Please use after version 1.5.2.
 
-If you continue to use GitPrep before version 1.5.1,
+If you continue to use Giblog Net before version 1.5.1,
 collaboration table is broken.
 Please fix it the following way.
 
     # Run SQLite client
-    sqlite3 data/gitprep.db
+    sqlite3 data/giblognet.db
     
     # drop collaboration table
     drop table collaboration;
     
     # Restart
-    ./gitprep
+    ./giblognet
 
 ### I want to set time zone.
 
-OK. GitPrep supports time zones. You can set time_zone option in conig file.
+OK. Giblog Net supports time zones. You can set time_zone option in conig file.
 
     [basic]
     ;;; Time Zone
-    ;;; GitPrep time zone is GMT by default
+    ;;; Giblog Net time zone is GMT by default
     ;;; You can set your local time zone.
     time_zone=+9:00
 
@@ -376,81 +376,81 @@ At first, set [basic]ssh_rep_url_base option to /~/git
 
     ;;; SSH repository url base
     ; For exampke, If you set this value to /~/git, SSH repository url become
-    ; ssh://gitprep@59.106.185.196/~/git/kimoto/gitprep.git
+    ; ssh://giblognet@59.106.185.196/~/git/kimoto/giblognet.git
     ; ~ is exapned to user home directory automatically
     ssh_rep_url_base=/~/git
 
-Next, you create symbolic link to /home/gitprep/gitprep/data/rep
+Next, you create symbolic link to /home/giblognet/giblognet/data/rep
     
     cd ~
-    ln -s ~/gitprep/data/rep ~/git
+    ln -s ~/giblognet/data/rep ~/git
 
 **2. Use only public key authentication and set [basic]ssh_rep_url_base to empty**
 
 If you use only public key authentication, you can access ssh repository
 using the following url.
 
-    ssh://kimoto@59.106.185.196/kimoto/gitprep.git
+    ssh://kimoto@59.106.185.196/kimoto/giblognet.git
 
 If you set [basic]ssh_rep_url_base to empty string, this URL is shown on Browser.
 
     ;;; SSH repository url base
     ; For exampke, If you set this value to /git, SSH repository url become
-    ; ssh://kimoto@59.106.185.196/git/kimoto/gitprep.git
+    ; ssh://kimoto@59.106.185.196/git/kimoto/giblognet.git
     ssh_rep_url_base=
 
 ### How to get atom feed of commits page
 
 You can get atom feed of commits page by the following URL
 
-    http://somehost.com/kimoto/gitprep/commits/master.atom
+    http://somehost.com/kimoto/giblognet/commits/master.atom
 
-### How to run GitPrep from root user
+### How to run Giblog Net from root user
 
 You can manage the application from the root user.
 
 Start the application
 
-    sudo -u gitprep /home/gitprep/gitprep/gitprep
+    sudo -u giblognet /home/giblognet/giblognet/giblognet
 
 Stop the application
 
-    sudo -u gitprep /home/gitprep/gitprep/gitprep --stop
+    sudo -u giblognet /home/giblognet/giblognet/giblognet --stop
 
 If you want to start the application when the OS starts,
 add the start application command to **rc.local**(Linux).
 
-If you want to make it easy to manage gitprep,
+If you want to make it easy to manage giblognet,
 then create a run script.
 
     mkdir -p /webapp
-    echo '#!/bin/sh' > /webapp/gitprep
-    echo 'su - gitprep -c "/home/gitprep/gitprep/gitprep $*"' >> /webapp/gitprep
-    chmod 755 /webapp/gitprep
+    echo '#!/bin/sh' > /webapp/giblognet
+    echo 'su - giblognet -c "/home/giblognet/giblognet/giblognet $*"' >> /webapp/giblognet
+    chmod 755 /webapp/giblognet
 
 You can start and stop the application with the following command.
 
     # Start or Restart
-    /webapp/gitprep
+    /webapp/giblognet
 
     # Stop
-    /webapp/gitprep --stop
+    /webapp/giblognet --stop
 
-### I want to use GitPrep on Perl 5.8.7 system
+### I want to use Giblog Net on Perl 5.8.7 system
 
-GitPrep 2.0 dropped support for Perl 5.8.7 because latest Mojolicious doesn't support Perl 5.8.
+Giblog Net 2.0 dropped support for Perl 5.8.7 because latest Mojolicious doesn't support Perl 5.8.
 
 You can choose between those options:
 
-**1. use GitPrep 1.xx**
+**1. use Giblog Net 1.xx**
 
-GitPrep 1.xx support Perl 5.8.7+. You can use GitPrep v1.12.
+Giblog Net 1.xx support Perl 5.8.7+. You can use Giblog Net v1.12.
 
-https://github.com/yuki-kimoto/gitprep/archive/v1.12.tar.gz
+https://github.com/yuki-kimoto/giblognet/archive/v1.12.tar.gz
 
 You can see version 1.12 document.
 
-[GitPrep version 1 Document](old/README_v1.md)
+[Giblog Net version 1 Document](old/README_v1.md)
 
 **2. You can install your local perl by perlbrew.**
 
@@ -458,11 +458,11 @@ http://perlbrew.pl/
 
 perlbrew is a very useful perl installation tool without breaking your system perl.
 
-If you install perl 5.10.1+ with perlbrew, you can install latest GitPrep.
+If you install perl 5.10.1+ with perlbrew, you can install latest Giblog Net.
 
-### I know information about GitPrep 2.0 upgrading.
+### I know information about Giblog Net 2.0 upgrading.
 
-If you use GitPrep on Perl 5.8 and install newer perl with perlbrew,
+If you use Giblog Net on Perl 5.8 and install newer perl with perlbrew,
 you must remove extlib directory before running the "./setup_module" command.
 
   rm -rf extlib
@@ -471,7 +471,7 @@ You should know the following small changes.
 
 **1. X-Forwarded-HTTPS header is deprecated. use  X-Forwarded-Proto header.**
     
-    # This is deprecated in GitPrep 2.0
+    # This is deprecated in Giblog Net 2.0
     RequestHeader set X-Forwarded-HTTPS "1"
     
     # Use X-Forwarded-Proto instead
@@ -483,7 +483,7 @@ remove [basic]show_ignore_space_change_link option.
 and move this feature to project settings page.
 
     # Go to settings page in your project
-    /kimoto/gitprep/settings
+    /kimoto/giblognet/settings
 
 **3. remove [basic]show_ignore_space_change_link option**
 
@@ -491,7 +491,7 @@ remove [basic]show_ignore_space_change_link option.
 but enable this feature on in project settings page.
 
     # Go to settings page in your project
-    /kimoto/gitprep/settings
+    /kimoto/giblognet/settings
 
 **4. remove [basic]encoding_suspects option**
 
@@ -499,26 +499,26 @@ remove [basic]encoding_suspects option
 and move this feature to project settings page.
 
     # Go to settings page in your project
-    /kimoto/gitprep/settings
+    /kimoto/giblognet/settings
 
 **5. mail is required for user registration.
 
 mail address is require for user registration.
 
-### Pull requests is removed when GitPrep upgrade
+### Pull requests is removed when Giblog Net upgrade
 
-Sorry, I found critical database specification mistake in GitPrep from v2.0 to v2.2,
+Sorry, I found critical database specification mistake in Giblog Net from v2.0 to v2.2,
 and fix it in v2.3.
 All your pull requests is removed when upgrading from v2.0-v2.2 to v2.3+.
 Please create Pull request again by the following command.
     
-    old/fix_v2_pull_request data/gitprep.db
+    old/fix_v2_pull_request data/giblognet.db
 
-### Are there other ways to install GitPrep?
+### Are there other ways to install Giblog Net?
 
 **Sparrowdo**
 
-You can use Sparrowdo to install GitPrep on remote server ( by ssh ) or on running Docker container:
+You can use Sparrowdo to install Giblog Net on remote server ( by ssh ) or on running Docker container:
 
 Here is example for Docker minimal Debian image:
 
@@ -551,34 +551,34 @@ Follow [Sparrowdo](https://github.com/melezhik/sparrowdo) for the details.
 
 **Dockerfile and docker-compose**
 
-You can use Docker to build your own container based on Alpine Linux. This image configures SSHD to be run by user root and GitPrep to be run by user gitprep.
+You can use Docker to build your own container based on Alpine Linux. This image configures SSHD to be run by user root and Giblog Net to be run by user giblognet.
 
-    docker build ./deploy -t jndeverteuil/gitprep:latest
+    docker build ./deploy -t jndeverteuil/giblognet:latest
 
 With that build, you can start a service with docker-compose:
 
     version: "3"
 
     services:
-    gitprep:
-        image: jndeverteuil/gitprep:latest
-        container_name: gitprep
-        hostname: gitprep
+    giblognet:
+        image: jndeverteuil/giblognet:latest
+        container_name: giblognet
+        hostname: giblognet
         restart: always
         ports:
         - "10020:10020"
         - "0.0.0.0:2222:22"
         volumes:
-        - gitprep:/home/gitprep
+        - giblognet:/home/giblognet
         - sshd:/etc/ssh
 
     volumes:
-    gitprep:
+    giblognet:
     sshd:
 
 ## For Developers
 
-### Run GitPrep in development mode
+### Run Giblog Net in development mode
 
 If you are a developer, you can start the application in development mode.
 
@@ -590,13 +590,13 @@ Then access the following URL.
 
 If you have git, it is easy to install from git.
 
-    git clone git://github.com/yuki-kimoto/gitprep.git
+    git clone git://github.com/yuki-kimoto/giblognet.git
 
-It is useful to write configuration in ***gitprep.my.conf***, not gitprep.conf.
+It is useful to write configuration in ***giblognet.my.conf***, not giblognet.conf.
 
 ## The way to create installable Mojolicious application
 
-GitPrep is the best example for developers who want to create installabel Mojolicious application.
+Giblog Net is the best example for developers who want to create installabel Mojolicious application.
 
 Even if shared hosting server, you can install Mojolicious application as CGI.
 
@@ -659,15 +659,15 @@ After that, you only prepare CGI script to call Mojolicious application in **pro
     use lib "$FindBin::Bin/extlib/lib/perl5";
 
     $ENV{MOJO_MODE} = 'production';
-    require "$FindBin::Bin/script/gitprep";
+    require "$FindBin::Bin/script/giblognet";
 
 ## Web Site
 
-[GitPrep Web Site](http://gitprep.yukikimoto.com/)
+[Giblog Net Web Site](http://giblognet.yukikimoto.com/)
 
 ## Internally Using Modules
 
-GitPrep depends on the following modules, especially Mojolicious is the base of GitPrep.
+Giblog Net depends on the following modules, especially Mojolicious is the base of Giblog Net.
 Thanks to Mojolicious author,[Sebastian riedel](https://twitter.com/kraih).
 
 * [Mojolicious](http://search.cpan.org/~sri/Mojolicious/lib/Mojolicious.pm)
@@ -697,13 +697,13 @@ If you find bug, plese tell me on GitHub issue. Small bugs is OK! I'm pleasure i
 
 Please post only bug information.
 
-* [Github Issue](https://github.com/yuki-kimoto/gitprep/issues?state=open)
+* [Github Issue](https://github.com/yuki-kimoto/giblognet/issues?state=open)
 
 ## Mailing list (Asking questions and feature requests)
 
-* [Google GitPrep Group](https://groups.google.com/forum/#!forum/gitprep)
+* [Google Giblog Net Group](https://groups.google.com/forum/#!forum/giblognet)
 
-You can ask questions about usage of GitPrep in this mailing list.
+You can ask questions about usage of Giblog Net in this mailing list.
 
 If you want new features, please post the request to this mailing list.
 
@@ -719,7 +719,7 @@ If you are interested in my project and activity, Please follow me on Twitter.
 
 ## Contributers
 
-Thanks for helping my GitPrep project.
+Thanks for helping my Giblog Net project.
 
 * [maspalio](https://github.com/maspalio)
 * [djzort](https://github.com/djzort)

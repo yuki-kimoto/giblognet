@@ -2,7 +2,7 @@
   use File::Basename ();
   
   # API
-  my $api = gitprep_api;
+  my $api = giblognet_api;
 
   # Git
   my $git = $self->app->git;

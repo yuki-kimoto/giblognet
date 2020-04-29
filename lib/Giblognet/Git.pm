@@ -1,4 +1,4 @@
-package Gitprep::Git;
+package Giblognet::Git;
 use Mojo::Base -base;
 
 use Carp 'croak';
@@ -10,7 +10,7 @@ use File::Copy 'move';
 use File::Find 'find';
 use File::Path qw/mkpath rmtree/;
 use POSIX 'floor';
-use Gitprep::Util;
+use Giblognet::Util;
 
 # Attributes
 has 'bin';
@@ -332,7 +332,7 @@ sub blob_diffs {
     'core.quotepath',
     'false'
   );
-  Gitprep::Util::run_command(@git_config_quotepath)
+  Giblognet::Util::run_command(@git_config_quotepath)
     or croak "Can't execute git config: @git_config_quotepath";
 
   # Diff tree
@@ -597,7 +597,7 @@ sub delete_branch {
   
   if ($exists) {
     my @cmd = $self->cmd($rep_info, 'branch', '-D', $branch);
-    Gitprep::Util::run_command(@cmd)
+    Giblognet::Util::run_command(@cmd)
       or croak "Branch deleting failed. Can't delete branch $branch";
   }
   else {

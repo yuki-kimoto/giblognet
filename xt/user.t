@@ -16,14 +16,14 @@ use Test::Mojo;
 my $data_dir =  $ENV{GITPREP_DATA_DIR} = "$FindBin::Bin/user";
 
 # Test DB
-my $db_file = "$data_dir/gitprep.db";
+my $db_file = "$data_dir/giblognet.db";
 
 # Test Repository home
 my $rep_home = "$data_dir/rep";
 
 $ENV{GITPREP_NO_MYCONFIG} = 1;
 
-use Gitprep;
+use Giblognet;
 
 note 'Start page';
 {
@@ -31,7 +31,7 @@ note 'Start page';
   
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
   
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);
@@ -71,7 +71,7 @@ note 'Admin page';
 
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);
@@ -135,7 +135,7 @@ note 'Admin page';
     $t->content_like(qr/Two password/);
     
     # Create user
-    $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto', name => 'Kimoto', email => 'kimoto@gitprep.example', password => 'a', password2 => 'a'});
+    $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto', name => 'Kimoto', email => 'kimoto@giblognet.example', password => 'a', password2 => 'a'});
     $t->content_like(qr/Success.*created/);
   }
     
@@ -144,7 +144,7 @@ note 'Admin page';
   $t->content_like(qr/Admin Users/);
   $t->content_like(qr/kimoto/);
   $t->content_like(qr/Kimoto/);
-  $t->content_like(qr/kimoto\@gitprep\.example/);
+  $t->content_like(qr/kimoto\@giblognet\.example/);
   
   note 'Admin page - Reset password';
   {
@@ -173,19 +173,19 @@ note 'Admin page';
   note 'Admin page - Update user';
   {
     # Create user
-    $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto-update', name => 'Kimoto-Update', email => 'kimoto-update@gitprep.example', password => 'a', password2 => 'a'});
+    $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto-update', name => 'Kimoto-Update', email => 'kimoto-update@giblognet.example', password => 'a', password2 => 'a'});
     $t->content_like(qr/kimoto-update/);
     
     # Update user
-    $t->post_ok('/_admin/user/update?op=update', form => {id => 'kimoto-update', name => 'Kimoto-Update2', email => 'kimoto-update2@gitprep.example'});
+    $t->post_ok('/_admin/user/update?op=update', form => {id => 'kimoto-update', name => 'Kimoto-Update2', email => 'kimoto-update2@giblognet.example'});
     $t->content_like(qr/Kimoto-Update2/);
-    $t->content_like(qr/kimoto-update2\@gitprep\.example/);
+    $t->content_like(qr/kimoto-update2\@giblognet\.example/);
   }
 
   note 'Admin page - Delete user';
   {
     # Create user
-    $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto-tmp', email => 'kimoto-tmp@gitprep.example', password => 'a', password2 => 'a'});
+    $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto-tmp', email => 'kimoto-tmp@giblognet.example', password => 'a', password2 => 'a'});
     $t->content_like(qr/kimoto-tmp/);
     $t->get_ok('/_admin/users');
     $t->content_like(qr/kimoto-tmp/);
@@ -213,7 +213,7 @@ note 'Reset password';
 
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);
@@ -239,9 +239,9 @@ note 'Reset password';
   $t->content_like(qr/Admin/);
   
   # Create user
-  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto1', email => 'kimoto1@gitprep.example', password => 'a', password2 => 'a'});
+  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto1', email => 'kimoto1@giblognet.example', password => 'a', password2 => 'a'});
   $t->content_like(qr/kimoto1/);
-  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto2', email => 'kimoto2@gitprep.example', password => 'a', password2 => 'a'});
+  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto2', email => 'kimoto2@giblognet.example', password => 'a', password2 => 'a'});
   $t->content_like(qr/kimoto2/);
   
   # Logout
@@ -275,7 +275,7 @@ note 'Profile';
 
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);
@@ -288,9 +288,9 @@ note 'Profile';
   $t->post_ok('/_login?op=login', form => {id => 'admin', password => 'a'});
 
   # Create user
-  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto1', email => 'kimoto1@gitprep.example', password => 'a', password2 => 'a'});
+  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto1', email => 'kimoto1@giblognet.example', password => 'a', password2 => 'a'});
   $t->content_like(qr/kimoto1/);
-  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto2', email => 'kimoto2@gitprep.example', password => 'a', password2 => 'a'});
+  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto2', email => 'kimoto2@giblognet.example', password => 'a', password2 => 'a'});
   $t->content_like(qr/kimoto2/);
   
   # Login as kimoto1
@@ -335,7 +335,7 @@ note 'Profile';
     $t->content_like(qr/first commit/);
     $t->content_like(qr/t2\.git/);
     $t->content_like(qr/README\.md/);
-    $t->content_like(qr/kimoto1\@gitprep\.example/);
+    $t->content_like(qr/kimoto1\@giblognet\.example/);
     $t->content_like(qr/Hello/);
 
     # Settings page(don't has README)
@@ -399,7 +399,7 @@ note 'Profile';
       $t->content_like(qr/Settings is saved/);
       my $changed = $t->app->dbi->model('project')->select(
         'default_branch',
-        where => {user => $app->gitprep_api->get_user_row_id('kimoto1'), id => 't2'}
+        where => {user => $app->giblognet_api->get_user_row_id('kimoto1'), id => 't2'}
       )->value;
       is($changed, 'b1');
     }
@@ -418,7 +418,7 @@ note 'fork';
 {
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);
@@ -446,7 +446,7 @@ note 'Network';
 {
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);
@@ -468,7 +468,7 @@ note 'Delete branch';
 {
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);
@@ -505,7 +505,7 @@ note 'Private repository and collaborator';
 
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);
@@ -519,9 +519,9 @@ note 'Private repository and collaborator';
   $t->content_like(qr/Admin/);
   
   # Create user
-  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto', email => 'kimoto@gitprep.example', password => 'a', password2 => 'a'});
+  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto', email => 'kimoto@giblognet.example', password => 'a', password2 => 'a'});
   $t->content_like(qr/Success.*created/);
-  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto2', email => 'kimoto2@gitprep.example', password => 'a', password2 => 'a'});
+  $t->post_ok('/_admin/user/create?op=create', form => {id => 'kimoto2', email => 'kimoto2@giblognet.example', password => 'a', password2 => 'a'});
   $t->content_like(qr/Success.*created/);
 
   # Login as kimoto
@@ -537,7 +537,7 @@ note 'Private repository and collaborator';
   $t->content_like(qr/Settings is saved/);
   my $is_private = $t->app->dbi->model('project')->select(
     'private',
-    where => {user => $app->gitprep_api->get_user_row_id('kimoto'), id => 't1'}
+    where => {user => $app->giblognet_api->get_user_row_id('kimoto'), id => 't1'}
   )->value;
   is($is_private, 1);
   

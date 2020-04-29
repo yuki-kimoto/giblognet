@@ -1,7 +1,7 @@
 <div class="footer">
   <div class="container">
     <div>
-      <a title="Let's share GitPrep!" href="https://github.com/yuki-kimoto/gitprep">Gitprep</a> Version <%= $Gitprep::VERSION %>
+      <a title="Let's share Giblog Net!" href="https://github.com/yuki-kimoto/giblognet">Giblognet</a> Version <%= $Giblognet::VERSION %>
       build on <a title="Let's share Mojolicious!" href="https://github.com/kraih/mojo">Mojolicious</a>
     </div>
 

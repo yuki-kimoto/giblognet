@@ -49,7 +49,7 @@ unless ($new_user_count) {
     }
     
     unless (exists $new_user->{email}) {
-      $new_user->{email} = $old_user->{id} . '@gitprep.example';
+      $new_user->{email} = $old_user->{id} . '@giblognet.example';
     }
     
     $new_dbi->insert($new_user, table => 'user');

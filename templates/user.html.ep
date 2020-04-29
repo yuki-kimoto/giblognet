@@ -1,6 +1,6 @@
 <%
   # API
-  my $api = gitprep_api;
+  my $api = giblognet_api;
   
   # Redirect for project delete
   if (my $deleted_project = param('deleted_project')) {

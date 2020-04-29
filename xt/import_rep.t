@@ -15,14 +15,14 @@ use Test::Mojo;
 my $data_dir =  $ENV{GITPREP_DATA_DIR} = "$FindBin::Bin/import_rep";
 
 # Test DB
-my $db_file = "$data_dir/gitprep.db";
+my $db_file = "$data_dir/giblognet.db";
 
 # Test Repository home
 my $rep_home = "$data_dir/rep";
 
 $ENV{GITPREP_NO_MYCONFIG} = 1;
 
-use Gitprep;
+use Giblognet;
 
 note 'import_rep';
 {
@@ -31,7 +31,7 @@ note 'import_rep';
 
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);
@@ -57,12 +57,12 @@ note 'import_rep';
     or die "Command fail: @cmd";
   
   # Branch
-  ok(-f "$rep_home/kimoto/gitprep_t.git/refs/heads/b1");
+  ok(-f "$rep_home/kimoto/giblognet_t.git/refs/heads/b1");
 
   # Tag
-  ok(-f "$rep_home/kimoto/gitprep_t.git/refs/tags/t1");
+  ok(-f "$rep_home/kimoto/giblognet_t.git/refs/tags/t1");
   
   # Description
-  ok(-f "$rep_home/kimoto/gitprep_t.git/description");
+  ok(-f "$rep_home/kimoto/giblognet_t.git/description");
 }
 

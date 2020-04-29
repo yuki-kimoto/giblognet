@@ -1,18 +1,18 @@
 version: "3"
 
 services:
-  gitprep:
-    image: yuki-kimoto/gitprep:latest
-    container_name: gitprep
-    hostname: gitprep
+  giblognet:
+    image: yuki-kimoto/giblognet:latest
+    container_name: giblognet
+    hostname: giblognet
     restart: always
     ports:
       - "10020:10020"
       - "0.0.0.0:2222:22"
     volumes:
-      - gitprep:/home/gitprep
+      - giblognet:/home/giblognet
       - sshd:/etc/ssh
 
 volumes:
-   gitprep:
+   giblognet:
    sshd:

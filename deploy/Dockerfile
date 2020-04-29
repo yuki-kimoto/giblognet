@@ -18,30 +18,30 @@ RUN set -x \
         wget \
         make
 
-# Create user gitprep
+# Create user giblognet
 RUN set -x \
-    && useradd -m gitprep \
-    && mkdir -m 700 /home/gitprep/.ssh \
-    && usermod -p '*' gitprep \
-    && touch /home/gitprep/.ssh/authorized_keys \
-    && chmod 600 /home/gitprep/.ssh/authorized_keys \
-    && chown -R gitprep:gitprep /home/gitprep/.ssh \
+    && useradd -m giblognet \
+    && mkdir -m 700 /home/giblognet/.ssh \
+    && usermod -p '*' giblognet \
+    && touch /home/giblognet/.ssh/authorized_keys \
+    && chmod 600 /home/giblognet/.ssh/authorized_keys \
+    && chown -R giblognet:giblognet /home/giblognet/.ssh \
     && sed -i 's/#PasswordAuthentication yes.*/PasswordAuthentication no/' /etc/ssh/sshd_config \
     && sed -i 's/#ChallengeResponseAuthentication yes.*/ChallengeResponseAuthentication no /' /etc/ssh/sshd_config
 
-USER gitprep
+USER giblognet
 
-# Install GitPrep
+# Install Giblog Net
 RUN set -x \
     && git --version \
     && perl -v \
-    && curl -kL https://github.com/yuki-kimoto/gitprep/archive/latest.tar.gz \
-        > /home/gitprep/gitprep-latest.tar.gz \
-    && mkdir /home/gitprep/gitprep \
-    && tar -zxf /home/gitprep/gitprep-latest.tar.gz \
-        --strip-components=1 -C /home/gitprep/gitprep \
-    && rm -f /home/gitprep/gitprep-latest.tar.gz \
-    && cd /home/gitprep/gitprep \
+    && curl -kL https://github.com/yuki-kimoto/giblognet/archive/latest.tar.gz \
+        > /home/giblognet/giblognet-latest.tar.gz \
+    && mkdir /home/giblognet/giblognet \
+    && tar -zxf /home/giblognet/giblognet-latest.tar.gz \
+        --strip-components=1 -C /home/giblognet/giblognet \
+    && rm -f /home/giblognet/giblognet-latest.tar.gz \
+    && cd /home/giblognet/giblognet \
     && PERL_USE_UNSAFE_INC=1 ./setup_module \
     && prove t \
     && ./setup_database
@@ -67,10 +67,10 @@ EXPOSE 10020
 EXPOSE 22
 
 # Set volume mount point
-VOLUME ["/home/gitprep"]
+VOLUME ["/home/giblognet"]
 
 # Set the default working directory as the installation directory.
-WORKDIR /home/gitprep
+WORKDIR /home/giblognet
 
 # Set entrypoint to invoke tini as PID1
 ENTRYPOINT ["/sbin/tini","--","/docker-entrypoint.sh"]

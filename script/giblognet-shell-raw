@@ -6,20 +6,20 @@ use utf8;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use lib "$FindBin::Bin/../extlib/lib/perl5";
-use Gitprep;
+use Giblognet;
 
 my $debug = 0;
 
 # Project name pattern
-my $project_re = qr/$Gitprep::project_re$/;
+my $project_re = qr/$Giblognet::project_re$/;
 
 # User
 my $session_user_id = shift;
 die "User not specifed" unless defined $session_user_id;
-my $user_re = qr/$Gitprep::user_re/;
+my $user_re = qr/$Giblognet::user_re/;
 
 # Application
-my $app = Mojo::Server->new->load_app("$FindBin::Bin/gitprep");
+my $app = Mojo::Server->new->load_app("$FindBin::Bin/giblognet");
 
 # Git
 my $git = $app->git;
@@ -57,7 +57,7 @@ if ($session_user_id eq $user_id) {
   $can_access = 1;
 }
 else {
-  $can_access = $app->gitprep_api->is_collaborator($session_user_id, $user_id, $project_id);
+  $can_access = $app->giblognet_api->is_collaborator($session_user_id, $user_id, $project_id);
 }
 die qq|User "$session_user_id" can't access repository "$user_id/$project_id.git"\n|
   unless $can_access; 
@@ -99,11 +99,11 @@ sub sanity {
 
 =head1 NAME
 
-gitprep-shell - AuthorizedKeysCommand for sshd
+giblognet-shell - AuthorizedKeysCommand for sshd
 
 =head1 USAGE
 
-  ./gitprep-shell-raw kimoto
+  ./giblognet-shell-raw kimoto
 
 This command return user public_key
 

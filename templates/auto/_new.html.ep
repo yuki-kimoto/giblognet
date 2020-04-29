@@ -1,6 +1,6 @@
 <%
   # API
-  my $api = gitprep_api;
+  my $api = giblognet_api;
   my $session_user_row_id = session('user_row_id');
   my $session_user = app->dbi->model('user')->select(where => {row_id => $session_user_row_id})->one;
 

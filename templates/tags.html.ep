@@ -1,6 +1,6 @@
 <%
   # API
-  my $api = Gitprep::API->new($self);
+  my $api = Giblognet::API->new($self);
 
   # Parameters
   my $user = param('user');

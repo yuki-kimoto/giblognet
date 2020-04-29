@@ -1,4 +1,4 @@
-package Gitprep::Util;
+package Giblognet::Util;
 
 use strict;
 use warnings;

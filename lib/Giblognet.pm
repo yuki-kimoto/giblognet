@@ -1,5 +1,5 @@
 use 5.010001;
-package Gitprep;
+package Giblognet;
 
 use Encode ();
 # Fix CGI PATH_INFO encoding bug
@@ -9,9 +9,9 @@ use Mojo::Base 'Mojolicious';
 
 use Carp 'croak';
 use DBIx::Custom;
-use Gitprep::API;
-use Gitprep::Git;
-use Gitprep::Manager;
+use Giblognet::API;
+use Giblognet::Git;
+use Giblognet::Manager;
 use Scalar::Util 'weaken';
 use Validator::Custom;
 use Time::Moment;
@@ -112,7 +112,7 @@ sub startup {
   
   # Config file for developper
   unless ($ENV{GITPREP_NO_MYCONFIG}) {
-    my $my_conf_file = $self->home->rel_file('gitprep.my.conf');
+    my $my_conf_file = $self->home->rel_file('giblognet.my.conf');
     $self->plugin('INIConfig', {file => $my_conf_file}) if -f $my_conf_file;
   }
   
@@ -127,7 +127,7 @@ sub startup {
   $self->config(data_dir => $data_dir);
   
   # Git
-  my $git = Gitprep::Git->new;
+  my $git = Giblognet::Git->new;
   $git->app($self);
   weaken $git->{app};
   my $git_bin
@@ -135,14 +135,14 @@ sub startup {
   if (!$git_bin || ! -e $git_bin) {
     $git_bin ||= '';
     my $error = "Can't detect or found git command ($git_bin)."
-      . " set git_bin in gitprep.conf";
+      . " set git_bin in giblognet.conf";
     $self->log->error($error);
     croak $error;
   }
   $git->bin($git_bin);
   
   # Repository Manager
-  my $manager = Gitprep::Manager->new;
+  my $manager = Giblognet::Manager->new;
   $manager->app($self);
   weaken $manager->{app};
   $self->manager($manager);
@@ -186,7 +186,7 @@ sub startup {
   $self->git($git);
   
   # DBI
-  my $db_file = "$data_dir/gitprep.db";
+  my $db_file = "$data_dir/giblognet.db";
   my $dbi = DBIx::Custom->connect(
     dsn => "dbi:SQLite:database=$db_file",
     connector => 1,
@@ -344,7 +344,7 @@ sub startup {
       my $r = $r->under(sub {
         my $self = shift;
         
-        my $api = $self->gitprep_api;
+        my $api = $self->giblognet_api;
         
         # Authentication
         {
@@ -389,7 +389,7 @@ sub startup {
             my $r = $r->under(sub {
               my $self = shift;
               
-              my $api = $self->gitprep_api;
+              my $api = $self->giblognet_api;
               my $user_id = $self->param('user');
               my $project_id = $self->param('project');
               my $private = $self->app->manager->is_private_project($user_id, $project_id);
@@ -453,7 +453,7 @@ sub startup {
               my $self = shift;
               
               # API
-              my $api = $self->gitprep_api;
+              my $api = $self->giblognet_api;
               
               # Private
               my $user_id = $self->param('user');
@@ -611,7 +611,7 @@ sub startup {
   # Helper
   {
     # API
-    $self->helper(gitprep_api => sub { Gitprep::API->new(shift) });
+    $self->helper(giblognet_api => sub { Giblognet::API->new(shift) });
   }
   
   # set scheme to https when X-Forwarded-HTTPS header is specified

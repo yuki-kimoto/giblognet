@@ -1,6 +1,6 @@
 <%
   # API
-  my $api = gitprep_api;
+  my $api = giblognet_api;
   
   # Parameters
   my $op = param('op') || '';

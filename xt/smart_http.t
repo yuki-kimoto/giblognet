@@ -16,14 +16,14 @@ use Test::Mojo;
 my $data_dir =  $ENV{GITPREP_DATA_DIR} = "$FindBin::Bin/smart_http";
 
 # Test DB
-my $db_file = "$data_dir/gitprep.db";
+my $db_file = "$data_dir/giblognet.db";
 
 # Test Repository home
 my $rep_home = "$data_dir/rep";
 
 $ENV{GITPREP_NO_MYCONFIG} = 1;
 
-use Gitprep;
+use Giblognet;
 
 note 'Smart HTTP';
 {
@@ -32,7 +32,7 @@ note 'Smart HTTP';
 
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);
@@ -143,7 +143,7 @@ note 'Private repository and collaborator';
 
   system("$FindBin::Bin/../setup_database", $db_file) == 0
     or die "Can't setup $db_file";
-  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/gitprep");
+  my $app = Mojo::Server->new->load_app("$FindBin::Bin/../script/giblognet");
 
   my $t = Test::Mojo->new($app);
   $t->ua->max_redirects(3);

@@ -1,0 +1,2 @@
+#!/bin/sh
+/home/kimoto/perl5/perlbrew/perls/perl-5.28.0/bin/perl /home/kimoto/labo/giblognet/script/giblognet-shell-raw $*

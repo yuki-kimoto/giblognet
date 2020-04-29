@@ -1,4 +1,4 @@
-package Gitprep::Manager;
+package Giblognet::Manager;
 use Mojo::Base -base;
 
 use Carp 'croak';
@@ -10,12 +10,12 @@ use Fcntl ':flock';
 use Carp 'croak';
 use File::Copy qw/copy move/;
 use File::Spec;
-use Gitprep::Util;
+use Giblognet::Util;
 
 has 'app';
 has 'authorized_keys_file';
 
-has '_tmp_branch' => '__gitprep_tmp_branch__';
+has '_tmp_branch' => '__giblognet_tmp_branch__';
 
 sub prepare_merge {
   my ($self, $work_rep_info, $base_rep_info, $base_branch, $target_rep_info, $target_branch) = @_;
@@ -23,13 +23,13 @@ sub prepare_merge {
   # Fetch base repository
   my $base_user_id = $base_rep_info->{user};
   my @git_fetch_base_cmd = $self->app->git->cmd($work_rep_info, 'fetch', 'origin');
-  Gitprep::Util::run_command(@git_fetch_base_cmd)
+  Giblognet::Util::run_command(@git_fetch_base_cmd)
     or Carp::croak "Can't execute git fetch: @git_fetch_base_cmd";
   
   # Fetch target repository
   my @git_fetch_target_cmd = $self->app->git->cmd($work_rep_info, 'fetch', $target_rep_info->{git_dir});
   
-  Gitprep::Util::run_command(@git_fetch_target_cmd)
+  Giblognet::Util::run_command(@git_fetch_target_cmd)
     or Carp::croak "Can't execute git fetch: @git_fetch_target_cmd";
 
   # Ensure no diff
@@ -38,7 +38,7 @@ sub prepare_merge {
     'reset',
     '--hard'
   );
-  Gitprep::Util::run_command(@git_reset_hard_cmd)
+  Giblognet::Util::run_command(@git_reset_hard_cmd)
     or Carp::croak "Can't execute git reset --hard: @git_reset_hard_cmd";
 
   # Checkout first branch
@@ -56,7 +56,7 @@ sub prepare_merge {
     'checkout',
     $first_branch
   );
-  Gitprep::Util::run_command(@git_checkout_first_branch)
+  Giblognet::Util::run_command(@git_checkout_first_branch)
     or Carp::croak "Can't execute git checkout: @git_checkout_first_branch";
   
   # Delete temparary branch if it eixsts
@@ -67,7 +67,7 @@ sub prepare_merge {
       '-D',
       $tmp_branch
     );
-    Gitprep::Util::run_command(@git_branch_remove_cmd)
+    Giblognet::Util::run_command(@git_branch_remove_cmd)
       or Carp::croak "Can't execute git branch: @git_branch_remove_cmd";
   }
 
@@ -77,7 +77,7 @@ sub prepare_merge {
     'branch',
     $tmp_branch
   );
-  Gitprep::Util::run_command(@git_branch_cmd)
+  Giblognet::Util::run_command(@git_branch_cmd)
     or Carp::croak "Can't execute git branch: @git_branch_cmd";
   
   # Checkout tmp branch and git reset --hard from my remote branch
@@ -86,7 +86,7 @@ sub prepare_merge {
     'checkout',
     $tmp_branch
   );
-  Gitprep::Util::run_command(@git_checkout_tmp_branch)
+  Giblognet::Util::run_command(@git_checkout_tmp_branch)
     or Carp::croak "Can't execute git checkout: @git_checkout_tmp_branch";
   
   # git reset --hard 
@@ -97,7 +97,7 @@ sub prepare_merge {
     '--hard',
     $base_object_id
   );
-  Gitprep::Util::run_command(@git_reset_hard_base_cmd)
+  Giblognet::Util::run_command(@git_reset_hard_base_cmd)
     or Carp::croak "Can't execute git reset --hard: @git_reset_hard_base_cmd";
 }
 
@@ -133,7 +133,7 @@ sub push {
     'origin',
     "$tmp_branch:$base_branch"
   );
-  Gitprep::Util::run_command(@git_push_cmd)
+  Giblognet::Util::run_command(@git_push_cmd)
     or Carp::croak "Can't execute git push: @git_push_cmd";
 }
 
@@ -168,7 +168,7 @@ sub create_work_rep {
 
     # git clone
     my @git_clone_cmd = ($self->app->git->bin, 'clone', $rep_git_dir, $work_tree);
-    Gitprep::Util::run_command(@git_clone_cmd)
+    Giblognet::Util::run_command(@git_clone_cmd)
       or croak "Can't git clone: @git_clone_cmd";
     
     # Set user name
@@ -178,7 +178,7 @@ sub create_work_rep {
       'user.name',
       $user
     );
-    Gitprep::Util::run_command(@git_config_user_name)
+    Giblognet::Util::run_command(@git_config_user_name)
       or croak "Can't execute git config: @git_config_user_name";
     
     # Set user email
@@ -189,7 +189,7 @@ sub create_work_rep {
       'user.email',
       "$user_email"
     );
-    Gitprep::Util::run_command(@git_config_user_email)
+    Giblognet::Util::run_command(@git_config_user_email)
       or croak "Can't execute git config: @git_config_user_email";
   }
 }
@@ -290,7 +290,7 @@ sub is_private_project {
   return $private;
 }
 
-sub api { shift->app->gitprep_api }
+sub api { shift->app->giblognet_api }
 
 
 sub create_project {
@@ -488,15 +488,15 @@ sub update_authorized_keys_file {
     # Parse file
     my $result = $self->parse_authorized_keys_file($authorized_keys_file);
     my $before_part = $result->{before_part};
-    my $gitprep_part = $result->{gitprep_part};
+    my $giblognet_part = $result->{giblognet_part};
     my $after_part = $result->{after_part};
     my $start_symbol = $result->{start_symbol};
     my $end_symbol = $result->{end_symbol};
     
     # Backup at first time
-    if ($gitprep_part eq '') {
+    if ($giblognet_part eq '') {
       # Backup original file
-      my $to = "$authorized_keys_file.gitprep.original";
+      my $to = "$authorized_keys_file.giblognet.original";
       unless (-f $to) {
         copy $authorized_keys_file, $to
           or croak "Can't copy $authorized_keys_file to $to";
@@ -512,14 +512,14 @@ sub update_authorized_keys_file {
     )->all;
     my $ssh_public_keys_str = '';
     for my $key (@$ssh_public_keys) {
-      my $ssh_public_key_str = 'command="' . $self->app->home->rel_file('script/gitprep-shell')
+      my $ssh_public_key_str = 'command="' . $self->app->home->rel_file('script/giblognet-shell')
         . " $key->{'user.id'}\",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty $key->{key}";
       $ssh_public_keys_str .= "$ssh_public_key_str $key->{'user.id'}\n\n";
     }
     
     # Output tmp file
     my $output = "$before_part$start_symbol\n\n$ssh_public_keys_str$end_symbol$after_part";
-    my $output_file = "$authorized_keys_file.gitprep.tmp";
+    my $output_file = "$authorized_keys_file.giblognet.tmp";
     open my $out_fh, '>', $output_file
       or croak "Can't create authorized_keys tmp file $output_file";
     print $out_fh $output;
@@ -540,8 +540,8 @@ sub update_authorized_keys_file {
 sub parse_authorized_keys_file {
   my ($self, $file) = @_;
   
-  my $start_symbol = "# gitprep start";
-  my $end_symbol = "# gitprep end";
+  my $start_symbol = "# giblognet start";
+  my $end_symbol = "# giblognet end";
   
   # Parse
   open my $fh, '<', $file
@@ -549,7 +549,7 @@ sub parse_authorized_keys_file {
   my $start_symbol_count = 0;
   my $end_symbol_count = 0;
   my $before_part = '';
-  my $gitprep_part = '';
+  my $giblognet_part = '';
   my $after_part = '';
   my $error_prefix = "authorized_keys file $file format error:";
   while (my $line = <$fh>) {
@@ -578,7 +578,7 @@ sub parse_authorized_keys_file {
       $before_part .= $line;
     }
     elsif ($start_symbol_count == 1 && $end_symbol_count == 0) {
-      $gitprep_part .= $line;
+      $giblognet_part .= $line;
     }
     elsif ($start_symbol_count == 1 && $end_symbol_count == 1) {
       $after_part .= $line;
@@ -589,7 +589,7 @@ sub parse_authorized_keys_file {
     start_symbol => $start_symbol,
     end_symbol => $end_symbol,
     before_part => $before_part,
-    gitprep_part => $gitprep_part,
+    giblognet_part => $giblognet_part,
     after_part => $after_part
   };
   
@@ -627,7 +627,7 @@ sub _create_rep {
     # Git init
     {
       my @git_init_cmd = $git->cmd($rep_info, 'init', '--bare');
-      Gitprep::Util::run_command(@git_init_cmd)
+      Giblognet::Util::run_command(@git_init_cmd)
         or croak  "Can't execute git init --bare:@git_init_cmd";
     }
     
@@ -644,7 +644,7 @@ sub _create_rep {
       '--bare',
       'update-server-info'
     );
-    Gitprep::Util::run_command(@git_update_server_info_cmd)
+    Giblognet::Util::run_command(@git_update_server_info_cmd)
       or croak "Can't execute git --bare update-server-info";
     move("$rep_git_dir/hooks/post-update.sample", "$rep_git_dir/hooks/post-update")
       or croak "Can't move post-update";
@@ -682,7 +682,7 @@ sub _create_rep {
       
       # Git init
       my @git_init_cmd = $git->cmd($work_rep_info, 'init', '-q');
-      Gitprep::Util::run_command(@git_init_cmd)
+      Giblognet::Util::run_command(@git_init_cmd)
         or croak "Can't execute git init: @git_init_cmd";
       
       # Add README
@@ -699,7 +699,7 @@ sub _create_rep {
         'README.md'
       );
       
-      Gitprep::Util::run_command(@git_add_cmd)
+      Giblognet::Util::run_command(@git_add_cmd)
         or croak "Can't execute git add: @git_add_cmd";
       
       # Set user name
@@ -709,7 +709,7 @@ sub _create_rep {
         'user.name',
         $user
       );
-      Gitprep::Util::run_command(@git_config_user_name)
+      Giblognet::Util::run_command(@git_config_user_name)
         or croak "Can't execute git config: @git_config_user_name";
       
       # Set user email
@@ -720,7 +720,7 @@ sub _create_rep {
         'user.email',
         "$user_email"
       );
-      Gitprep::Util::run_command(@git_config_user_email)
+      Giblognet::Util::run_command(@git_config_user_email)
         or croak "Can't execute git config: @git_config_user_email";
       
       # Commit
@@ -731,7 +731,7 @@ sub _create_rep {
         '-m',
         'first commit'
       );
-      Gitprep::Util::run_command(@git_commit_cmd)
+      Giblognet::Util::run_command(@git_commit_cmd)
         or croak "Can't execute git commit: @git_commit_cmd";
       
       # Push
@@ -744,7 +744,7 @@ sub _create_rep {
           'master'
         );
         # (This is bad, but --quiet option can't supress in old git)
-        Gitprep::Util::run_command(@git_push_cmd)
+        Giblognet::Util::run_command(@git_push_cmd)
           or croak "Can't execute git push: @git_push_cmd";
       }
     }
@@ -865,7 +865,7 @@ sub _fork_rep {
     $rep_git_dir,
     $to_rep_git_dir
   );
-  Gitprep::Util::run_command(@cmd)
+  Giblognet::Util::run_command(@cmd)
     or croak "Can't fork repository(_fork_rep): @cmd";
   
   # Copy description

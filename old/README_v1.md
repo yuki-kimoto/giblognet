@@ -1,15 +1,15 @@
-# GitPrep version v1.12 document
+# Giblog Net version v1.12 document
 
 Github clone. You can install portable github system into Unix/Linux.
 
-See GitPrep example site. [GitPrep example site](http://perlcodesample.sakura.ne.jp/gitprep/gitprep.cgi/kimoto/gitprep)
+See Giblog Net example site. [Giblog Net example site](http://perlcodesample.sakura.ne.jp/giblognet/giblognet.cgi/kimoto/giblognet)
 
-![GitPrep Image](../gitprep_image.png "Gitprep image example")
+![Giblog Net Image](../giblognet_image.png "Giblognet image example")
 
 ## Features
 
-* Github clone: GitPrep has the same interface as GitHub.
-* Portable: You can install GitPrep on your own Unix/Linux server.
+* Github clone: Giblog Net has the same interface as GitHub.
+* Portable: You can install Giblog Net on your own Unix/Linux server.
 * Supports Windows installation via cygwin for Windows (need gcc4 package).
 * Only needs Perl 5.8.7+.
 * Smart HTTP support: you can pull and push via HTTP
@@ -18,7 +18,7 @@ See GitPrep example site. [GitPrep example site](http://perlcodesample.sakura.ne
 
 ## Check Perl Version
 
-Check Perl version. You can use GitPrep if the Perl version is 5.8.7+;
+Check Perl version. You can use Giblog Net if the Perl version is 5.8.7+;
 
     perl -v
 
@@ -26,21 +26,21 @@ Check Perl version. You can use GitPrep if the Perl version is 5.8.7+;
 
     git --version
     
-## A. Installation when you run GitPrep as CGI script
+## A. Installation when you run Giblog Net as CGI script
 
 Download tar.gz archive, expand it and change directory:
 
-    curl -kL https://github.com/yuki-kimoto/gitprep/archive/latest.tar.gz > gitprep-latest.tar.gz
-    tar xf gitprep-latest.tar.gz
-    mv gitprep-latest gitprep
-    cd gitprep
+    curl -kL https://github.com/yuki-kimoto/giblognet/archive/latest.tar.gz > giblognet-latest.tar.gz
+    tar xf giblognet-latest.tar.gz
+    mv giblognet-latest giblognet
+    cd giblognet
 
 Setup. Needed module is installed.
 
     ./setup.sh
 
 If you install git in your local directry,
-you must add the correct git command path to the **gitprep.conf** config file.
+you must add the correct git command path to the **giblognet.conf** config file.
 
     [basic]
     ;;; Git command path
@@ -54,11 +54,11 @@ If "syntax OK" is displayed, setup is sucseed.
 
 You can access the following URL.
 
-    http://yourhost/somepath/gitprep/gitprep.cgi
+    http://yourhost/somepath/giblognet/giblognet.cgi
 
 ### If you see Internal Server Error
 
-If you see an internal server error, look at the log file (gitprep/log/production.log)
+If you see an internal server error, look at the log file (giblognet/log/production.log)
 to see what problem has occurred.
 
 ### Additional work when you don't run CGI script by your user.
@@ -66,9 +66,9 @@ to see what problem has occurred.
 If CGI script isn't run by your user, you need the following work.
 For example, CGI script is run by apache user.
 
-Change user and group of all files in gitprep directory to apache 
+Change user and group of all files in giblognet directory to apache 
 
-    chown -R apache:apache gitprep
+    chown -R apache:apache giblognet
 
 In this case, you server need to execute CGI.
 Check apache config file.
@@ -80,33 +80,33 @@ For example, you need the following config.
         AddHandler cgi-script .cgi
     </Directory>
 
-## B. Installation when you run GitPrep as embdded web server
+## B. Installation when you run Giblog Net as embdded web server
 
-GitPrep has its own web server,
+Giblog Net has its own web server,
 so you can start using the application very easily.
 In this way, performance is much better than CGI.
 
-### Create gitprep user
+### Create giblognet user
 
-Create a **gitprep** user. This is not necessary, but recommended:
+Create a **giblognet** user. This is not necessary, but recommended:
 
-    useradd gitprep
-    su - gitprep
+    useradd giblognet
+    su - giblognet
     cd ~
 
 And config global git config
 
-    git config --global user.name "gitprep"
-    git config --global user.email "gitprep@example.com"
+    git config --global user.name "giblognet"
+    git config --global user.email "giblognet@example.com"
 
 ### Download
 
 Download tar.gz archive, expand it and change directory:
 
-    curl -kL https://github.com/yuki-kimoto/gitprep/archive/latest.tar.gz > gitprep-latest.tar.gz
-    tar xf gitprep-latest.tar.gz
-    mv gitprep-latest gitprep
-    cd gitprep
+    curl -kL https://github.com/yuki-kimoto/giblognet/archive/latest.tar.gz > giblognet-latest.tar.gz
+    tar xf giblognet-latest.tar.gz
+    mv giblognet-latest giblognet
+    cd giblognet
 
 Setup. Needed module is installed.
 
@@ -120,30 +120,30 @@ If "syntax OK" is displayed, setup is sucseed.
 
 ### Start
 
-You can start the application by running the provided gitprep script.
+You can start the application by running the provided giblognet script.
 The application is run in the background and the port is **10020** by default.
 
-    ./gitprep
+    ./giblognet
 
 Then access the following URL.
 
     http://localhost:10020
 
-If you want to change the port, edit gitprep.conf.
+If you want to change the port, edit giblognet.conf.
 If you cannot access this port, you might change the firewall settings.
 
 ### Stop
 
 You can stop the application by adding the **--stop** option.
 
-    ./gitprep --stop
+    ./giblognet --stop
 
 ## FAQ
 
-## Can't find git command from GitPrep
+## Can't find git command from Giblog Net
 
 If you install git into your local directry,
-you must add the correct git command path to the config file **gitprep.conf** .
+you must add the correct git command path to the config file **giblognet.conf** .
 
     [basic]
     ;;; Git command path
@@ -151,16 +151,16 @@ you must add the correct git command path to the config file **gitprep.conf** .
 
 ### blame don't work
 
-In Gitprep, blame page use "git blame --line-porcelain". In old git, there is no --line-porcelain option.
+In Giblognet, blame page use "git blame --line-porcelain". In old git, there is no --line-porcelain option.
 We don't know when --line-porcelain was added to git.
 At least, blame page work well in git 1.8.2.1.
 
-### How to upgrade GitPrep
+### How to upgrade Giblog Net
 
-It is very easy. you only overwrite all files except for "gitprep.conf".
+It is very easy. you only overwrite all files except for "giblognet.conf".
 
 If you want to upgrade by "git pull", you can do it.
-you create "gitprep.my.conf" copied from "gitprep.my.conf",
+you create "giblognet.my.conf" copied from "giblognet.my.conf",
 and do "git pull"
 
 If you get a rainbow unicorn t-rex error after upgrading, you might be missing
@@ -175,9 +175,9 @@ There are some reasons.
 If you see "error: RPC failed; result=56, HTTP code = 200" , your git maybe old.
 Please upgrade to latest git. I checked git version 1.8.5.5.
 
-**2. GitPrep restriction**
+**2. Giblog Net restriction**
 
-GitPrep restrict max post message size 10MB(This is default of Mojolicious)
+Giblog Net restrict max post message size 10MB(This is default of Mojolicious)
 
 You maybe see the following error
 
@@ -225,15 +225,15 @@ If you see the following error message in log/production.log
 you need to set User name and Email of git.
 Please set user.name and user.email.
 
-    git config --global user.name "gitprep"
-    git config --global user.email "gitprep@example.com"
+    git config --global user.name "giblognet"
+    git config --global user.email "giblognet@example.com"
 
 ### How to use reverse proxy?
 
-You can use GitPrep via reverse proxy access
+You can use Giblog Net via reverse proxy access
 
          ----------------------------     ------------
-    ---->| Web Server(Reverse proxy)|---->|GitPrep   |
+    ---->| Web Server(Reverse proxy)|---->|Giblog Net   |
     <----| (Apache, etc)            |<----|          |
          ----------------------------     ------------
 
@@ -257,7 +257,7 @@ You can use Name virtual host.
         
     </VirtualHost>
 
-If you use GitPrep vis https, you should set X-Forwarded-HTTPS Request Header.
+If you use Giblog Net vis https, you should set X-Forwarded-HTTPS Request Header.
 
     # HTTPS
     <VirtualHost *:443>
@@ -277,7 +277,7 @@ If you use GitPrep vis https, you should set X-Forwarded-HTTPS Request Header.
 
 ### How to use reverse proxy with sub directory?
 
-GitPrep support reverse proxy with sub directory.
+Giblog Net support reverse proxy with sub directory.
 
 At first, set [reverse_proxy]path_depth option.
 
@@ -326,29 +326,29 @@ If **description** file exists in git repository, it is copied.
 
 ### I can't add collabortor more than one
 
-This is GitPrep bug before version 1.5.1.
+This is Giblog Net bug before version 1.5.1.
 Please use after version 1.5.2.
 
-If you continue to use GitPrep before version 1.5.1,
+If you continue to use Giblog Net before version 1.5.1,
 collaboration table is broken.
 Please fix it by the following way.
 
     # Run SQLite client
-    sqlite3 data/gitprep.db
+    sqlite3 data/giblognet.db
     
     # drop collaboration table
     drop table collaboration;
     
     # Restart
-    ./gitprep
+    ./giblognet
 
 ### I want to set time zone.
 
-OK. GitPrep suport time zone. You can set time_zone option in conig file.
+OK. Giblog Net suport time zone. You can set time_zone option in conig file.
 
     [basic]
     ;;; Time Zone
-    ;;; GitPrep time zone is GMT by default
+    ;;; Giblog Net time zone is GMT by default
     ;;; You can set your local time zone.
     time_zone=+9:00
 
@@ -360,65 +360,65 @@ At first, set [basic]ssh_rep_url_base option to /git
 
     ;;; SSH repository url base
     ; For exampke, If you set this value to /git, SSH repository url become
-    ; ssh://kimoto@59.106.185.196/git/kimoto/gitprep.git
+    ; ssh://kimoto@59.106.185.196/git/kimoto/giblognet.git
     ssh_rep_url_base=/git
 
-And you create symbolic link to /home/gitprep/gitprep/data/rep
+And you create symbolic link to /home/giblognet/giblognet/data/rep
     
     cd /
-    ln -s /home/gitprep/gitprep/data/rep /git
-    chown gitprep:gitprep /git
+    ln -s /home/giblognet/giblognet/data/rep /git
+    chown giblognet:giblognet /git
 
 **2. Use only public key authentication and set [basic]ssh_rep_url_base to empty**
 
 If you use only public key authentication, you can access ssh repository
 using the following url.
 
-    ssh://kimoto@59.106.185.196/kimoto/gitprep.git
+    ssh://kimoto@59.106.185.196/kimoto/giblognet.git
 
 If you set [basic]ssh_rep_url_base to empty string, this URL is shown on Browser.
 
     ;;; SSH repository url base
     ; For exampke, If you set this value to /git, SSH repository url become
-    ; ssh://kimoto@59.106.185.196/git/kimoto/gitprep.git
+    ; ssh://kimoto@59.106.185.196/git/kimoto/giblognet.git
     ssh_rep_url_base=
 
 ### How to get atom feed of commits page
 
 You can get atom feed of commits page by the following URL
 
-    http://somehost.com/kimoto/gitprep/commits/master.atom
+    http://somehost.com/kimoto/giblognet/commits/master.atom
 
-### How to run GitPrep from root user
+### How to run Giblog Net from root user
 
 You can manage the application from the root user.
 
 Start the application
 
-    sudo -u gitprep /home/gitprep/gitprep/gitprep
+    sudo -u giblognet /home/giblognet/giblognet/giblognet
 
 Stop the application
 
-    sudo -u gitprep /home/gitprep/gitprep/gitprep --stop
+    sudo -u giblognet /home/giblognet/giblognet/giblognet --stop
 
 If you want to start the application when the OS starts,
 add the start application command to **rc.local**(Linux).
 
-If you want to make it easy to manage gitprep,
+If you want to make it easy to manage giblognet,
 then create a run script.
 
     mkdir -p /webapp
-    echo '#!/bin/sh' > /webapp/gitprep
-    echo 'su - gitprep -c "/home/gitprep/gitprep/gitprep $*"' >> /webapp/gitprep
-    chmod 755 /webapp/gitprep
+    echo '#!/bin/sh' > /webapp/giblognet
+    echo 'su - giblognet -c "/home/giblognet/giblognet/giblognet $*"' >> /webapp/giblognet
+    chmod 755 /webapp/giblognet
 
 You can start and stop the application with the following command.
 
     # Start or Restart
-    /webapp/gitprep
+    /webapp/giblognet
 
     # Stop
-    /webapp/gitprep --stop
+    /webapp/giblognet --stop
 
 ## For Developer
 
@@ -432,13 +432,13 @@ Then access the following URL.
 
 If you have git, it is easy to install from git.
 
-    git clone git://github.com/yuki-kimoto/gitprep.git
+    git clone git://github.com/yuki-kimoto/giblognet.git
 
-It is useful to write configuration in ***gitprep.my.conf***, not gitprep.conf.
+It is useful to write configuration in ***giblognet.my.conf***, not giblognet.conf.
 
 ## Web Site
 
-[GitPrep Web Site](http://gitprep.yukikimoto.com/)
+[Giblog Net Web Site](http://giblognet.yukikimoto.com/)
 
 ## Internally Using Library
 
@@ -467,13 +467,13 @@ If you find bug, plese tell me on GitHub issue.
 
 Please post only bug information.
 
-* [Github Issue](https://github.com/yuki-kimoto/gitprep/issues?state=open)
+* [Github Issue](https://github.com/yuki-kimoto/giblognet/issues?state=open)
 
 ## Mailing list (Asking questions and feature requests)
 
-* [Google GitPrep Group](https://groups.google.com/forum/#!forum/gitprep)
+* [Google Giblog Net Group](https://groups.google.com/forum/#!forum/giblognet)
 
-You can ask questions about usage of GitPrep in this mailing list.
+You can ask questions about usage of Giblog Net in this mailing list.
 
 If you want new features, please post the request to this mailing list.
 

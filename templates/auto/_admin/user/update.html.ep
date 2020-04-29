@@ -1,5 +1,5 @@
 <%
-  my $api = gitprep_api;
+  my $api = giblognet_api;
   
   my $op = param('op') || '';
   my $user_id = param('id');

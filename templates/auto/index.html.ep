@@ -12,7 +12,7 @@
 
 % layout 'common';
   
-  %= include '/include/header', title => 'Gitprep';
+  %= include '/include/header', title => 'Giblognet';
   <!-- Index page -->
   <div class="container">
     <div class="topic1">Users</div>

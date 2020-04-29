@@ -3,7 +3,7 @@
 2.5.1 (2016-12-6)
   - fix img src relative image url
 2.5 (2016-12-05)
-  - GitPrep theme color become dark blue.
+  - Giblog Net theme color become dark blue.
 2.4.2 (2016-08-23)
   - fix issue count bugs
   - add issue count and pull reqeust count to header
@@ -24,7 +24,7 @@
     I must fix pull_request and pull_request_message table.
     All your pull requests is removed. Please create Pull request again by the following command.
     
-      old/fix_v2_pull_request data/gitprep.db
+      old/fix_v2_pull_request data/giblognet.db
   
   - support markdown table
   - support markdown foo_bar_baz
@@ -62,10 +62,10 @@
 1.10 (2015-07-27)
   - add show_ignore_space_change_link option to show --ignore-space-change page easily
   - add --ignore-space-change feature in diff page by using w= query string
-    for example, http://some.com/kimoto/gitprep_t/commit/3cf14ade5e28ee0cd83b9a3b1e1c332aed66df53?w=
+    for example, http://some.com/kimoto/giblognet_t/commit/3cf14ade5e28ee0cd83b9a3b1e1c332aed66df53?w=
   - remove password length limit
   - improve CGI installation and change CGI script path. This is not backword compatible.
-    you need to change CGI script path, path/gitprep.cgi to path/gitprep/gitprep/cgi
+    you need to change CGI script path, path/giblognet.cgi to path/giblognet/giblognet/cgi
   - remove setup.php
   
 1.9.2 (2014-11-18)
@@ -75,7 +75,7 @@
 1.9 (2014-11-11)
   - add ssh_rep_url_base to cnahge or hide ssh URL user directory
   - add atom feed of commits page
-    for example, http://somehost.com/kimoto/gitprep_t/commits/master.atom
+    for example, http://somehost.com/kimoto/giblognet_t/commits/master.atom
 1.8 (2014-07-06)
   - support publick key authentication
 1.7 (2014-04-26)

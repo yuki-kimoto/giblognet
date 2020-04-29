@@ -8,12 +8,12 @@ use lib "$FindBin::Bin/../lib";
 use lib "$FindBin::Bin/../extlib/lib/perl5";
 use Getopt::Long;
 use File::Basename 'basename';
-use Gitprep;
+use Giblognet;
 use Encode 'decode';
 use Mojo::Server;
 
 no warnings;
-my $app = Mojo::Server->new->load_app("$FindBin::Bin/gitprep");
+my $app = Mojo::Server->new->load_app("$FindBin::Bin/giblognet");
 my $dbi = $app->dbi;
 my $manager = $app->manager;
 my $git = $app->git;
@@ -114,7 +114,7 @@ for my $rep (glob "$rep_dir/*") {
 
 =head1 NAME
 
-import_rep - Import existing repositories into GitPrep.
+import_rep - Import existing repositories into Giblog Net.
 
 =head1 USAGE
 

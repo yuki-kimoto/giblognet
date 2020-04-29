@@ -1,6 +1,6 @@
 <%
   # API
-  my $api = gitprep_api;
+  my $api = giblognet_api;
   
   # Operator
   my $op = param('op') || '';
@@ -79,7 +79,7 @@
   <div class="header">
     <div class="container">
       <div class="header-left">
-        <div class="title"><a href="<%= url_for('/') %>">GitPrep</a></div>
+        <div class="title"><a href="<%= url_for('/') %>">Giblog Net</a></div>
       </div>
     </div>
   </div>

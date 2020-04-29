@@ -61,7 +61,7 @@
 %>
 % layout 'common', title => 'Search';
   
-  %= include '/include/header', title => 'Gitprep';
+  %= include '/include/header', title => 'Giblognet';
   <!-- Index page -->
   <div class="container">
     <div class="search-top">
