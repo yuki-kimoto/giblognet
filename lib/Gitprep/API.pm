@@ -89,6 +89,22 @@ sub check_user_and_password {
   return $is_valid;
 }
 
+sub is_collaborator {
+  my ($self, $collaborator_id, $user_id, $project_id) = @_;
+  
+  my $user_row_id = $self->get_user_row_id($user_id);
+  my $project_row_id = $self->app->dbi->model('project')->select(
+    where => {user => $user_row_id, id => $project_id}
+  )->value;
+  my $collaborator_row_id = $self->get_user_row_id($collaborator_id);
+  
+  my $row = $self->app->dbi->model('collaboration')->select(
+    where => {project => $project_row_id, user => $collaborator_row_id}
+  )->one;
+  
+  return $row ? 1 : 0;
+}
+
 sub can_access_private_project {
   my ($self, $user_id, $project_id) = @_;
 
@@ -100,7 +116,7 @@ sub can_access_private_project {
   )->value;
   
   my $is_valid =
-    ($user_id eq $session_user_id)
+    ($user_id eq $session_user_id || $self->is_collaborator($session_user_id, $user_id, $project_id))
     && $self->logined;
   
   return $is_valid;
@@ -115,6 +131,7 @@ sub can_write_access {
     = length $session_user_id &&
     (
       $session_user_id eq $user_id
+      || $self->is_collaborator($session_user_id, $user_id, $project_id)
     );
   
   return $can_write_access;
